@@ -1,22 +1,22 @@
 {
   "chores": [
     {
-      "id": 1,
-      "title": "Wash the dishes",
-      "priority": "piling up",
-      "duration": "30 min"
+      "title": "Feed Milan",
+      "priority": "2",
+      "duration": "30 min",
+      "id": 5
     },
     {
-      "id": 2,
-      "title": "Fix Bed",
-      "priority": "Can Wait",
-      "duration": "3 min"
+      "title": "feed diana",
+      "priority": "10",
+      "duration": "30 min",
+      "id": 8
     },
     {
-      "id": 3,
-      "title": "Catch Matt doing weird things",
-      "priority": "MOI IMPORTANTE",
-      "duration": "ongoing, forever"
+      "title": "Feed Steven Jason's Vegan Pizza",
+      "priority": "100",
+      "duration": "5 mins",
+      "id": 9
     }
   ]
 }
