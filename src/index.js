@@ -41,8 +41,8 @@ function createNewChoreCard(url) {
   .then(response => response.json()) // parses response to JSON!
 }
 
-let submitButton = document.getElementById('submit-btn')
-submitButton.addEventListener('click', (event) => {
+let formInput = document.getElementById('new-chore-form')
+formInput.addEventListener('submit', (event) => {
   event.preventDefault()
   // console.log("hey")
   createNewChoreCard("http://localhost:3000/chores")
@@ -54,7 +54,10 @@ submitButton.addEventListener('click', (event) => {
     <p> Duration: ${json["duration"]} </p>
     <input><!-- value should have the importance  -->
   </div>`
-    })
+  })
+  document.getElementById("title").value = ""
+  document.getElementById("priority").value = ""
+  document.getElementById("duration").value = ""
   })
 
 
