@@ -1,81 +1,120 @@
-const mainUrl = 'http://localhost:3000/chores'
-let choreContainer = document.getElementById('chore-list')
+// GET method / SHOWING THE CHORE CARDS
 
-fetch(mainUrl)
-.then(function(response) {
-  return response.json()
-})
-.then(function(json) {
-  renderChoreCard(json)
-})
+let choreListContainer = document.getElementById('chore-list')
 
-function renderChoreCard(choreList) {
+fetch('http://localhost:3000/chores')
+  .then((response) => {
+    return response.json()
+  })
+  .then((json) => {
+    renderChoreCard(json)
+  })
 
-  choreList.forEach(function(chore) {
-    choreContainer.innerHTML += `<div class="chore-card">
-  <button class="delete-button" data-id='${chore["id"]}'>x</button>
-  <h3> ${chore["title"]} </h3>
-  <p> Duration: ${chore["duration"]} </p>
-  <input><!-- value should have the importance  -->
-</div>`
+function renderChoreCard(list) {
+
+  list.forEach( (choreObject) => {
+    choreListContainer.innerHTML  += `<div class="chore-card">
+      <button class="delete-button" data-id="${choreObject["id"]}">x</button>
+      <h3> ${choreObject["title"]} </h3>
+      <p> Duration: ${choreObject["duration"]} </p>
+      <input><!-- value should have the importance  -->
+    </div> `
   })
 
 }
 
-// for posting a new chore card
+// POST method / ADDING NEW CHORE CARDS
 
-
-function createNewChoreCard(url) {
+function addNewChoreCard(url) {
   return fetch(url, {
-    method: "POST",
-    headers: {
-      'Content-Type': 'application/json',
-      'Accepts': 'application/json'
-    },
-    body: JSON.stringify({
-      title: document.getElementById("title").value,
-      priority: document.getElementById("priority").value,
-      duration: document.getElementById("duration").value
-    }) // whatever data we got
-  })
-  .then(response => response.json()) // parses response to JSON!
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accepts': 'application/json'
+      },
+      // body (which holds our input data) is an object
+      body: JSON.stringify({
+        title: document.getElementById('title').value,
+        priority: document.getElementById('priority').value,
+        duration: document.getElementById('duration').value
+      })
+    }).then( (response) => {
+      // parses response to JSON, add data to JSON array
+      return response.json()
+    })
+    .then( (json) => {
+      choreListContainer.innerHTMl += `<div class="chore-card">
+        <button class="delete-button" data-id="${json["id"]}">x</button>
+        <h3> ${json["title"]} </h3>
+        <p> Duration: ${json["duration"]} </p>
+        <input><!-- value should have the importance  -->
+      </div> `
+    })
 }
 
-let formInput = document.getElementById('new-chore-form')
-formInput.addEventListener('submit', (event) => {
-  event.preventDefault()
-  // console.log("hey")
-  createNewChoreCard("http://localhost:3000/chores")
-  .then(json => {
-    // debugger
-      choreContainer.innerHTML += `<div class="chore-card">
-    <button class="delete-button" data-id="${json["id"]}">x</button>
-    <h3> ${json["title"]} </h3>
-    <p> Duration: ${json["duration"]} </p>
-    <input><!-- value should have the importance  -->
-  </div>`
+    // do not wrap around function!!
+    let choreForm = document.getElementById('new-chore-form')
+
+    choreForm.addEventListener( 'submit', (event) => {
+      event.preventDefault()
+
+      // fetch new chore card and parse to json
+      addNewChoreCard('http://localhost:3000/chores')
+
+      // reset the form input fields
+      event.target.reset()
+    })
+
+
+// DELET METHOD - DELETE CHORE CARDS
+
+function deleteChoreCard(url, eventId) {
+
+  return fetch(url + "/" + eventId, {
+    method: 'DELETE',
   })
-  document.getElementById("title").value = ""
-  document.getElementById("priority").value = ""
-  document.getElementById("duration").value = ""
-  })
+  // not necessary to return response data
+  // .then( (response) => {
+  //   return response.json()
+  // })
 
-
-
-
-// for deleting a chore card
-function deleteNewChoreCard(item, url) {
-  return fetch(url + '/' + item, {
-    method: "DELETE",
-  })
-  .then(response => response.json())
 }
 
-// let deleteButton = document.querySelector('.delete-button')
-choreContainer.addEventListener('click', (event) => {
+// 'x' button on the chore container
+choreListContainer.addEventListener('click', (event) => {
+  // debugger
+  // event.target shows <button class="delete-button" data-id="an id">x</button>
+  // to limit a target to just the button:
   if (event.target.tagName === 'BUTTON') {
-    debugger
-    event.target.parentElement.remove()
-    deleteNewChoreCard(parseInt(event.target.dataset.id), "http://localhost:3000/chores")
+
+    // deletes from backend
+    deleteChoreCard('http://localhost:3000/chores', parseInt(event.target.dataset.id))
+
+    // need to delete the specific chore card from frontend
+    event.target.parentNode.remove()
   }
+
 })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//end here!

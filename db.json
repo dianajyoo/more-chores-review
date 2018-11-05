@@ -25,22 +25,16 @@
       "id": 11
     },
     {
-      "title": "feed arren camembert",
-      "priority": "5000",
-      "duration": "2 mins",
-      "id": 12
-    },
-    {
       "title": "feed arren cheddar",
       "priority": "5000",
       "duration": "2 mins",
       "id": 13
     },
     {
-      "title": "feed arren gouda",
-      "priority": "199",
-      "duration": "2 mins",
-      "id": 14
+      "title": "study oo javascript",
+      "priority": "1",
+      "duration": "3 hours",
+      "id": 38
     }
   ]
 }
